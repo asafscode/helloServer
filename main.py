@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 def main():
-    server.bind(("0.0.0.0", 420))
+    server.bind(("0.0.0.0", 4141))
     server.listen()
     while True:
         exited = False
@@ -17,16 +17,15 @@ def main():
                 data = csocket.recv(recvLen)
                 command = data.decode()
                 if command == "Test":
-                    reply = "It works!"
+                    reply = cmd_test()
                 elif command == "Time":
-                    reply = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                    reply = cmd_time()
                 elif command == "Rand":
-                    random.seed()
-                    reply = str(random.randint(0, sys.maxsize))
+                    reply = cmd_rand()
                 elif command == "Name":
-                    reply = "plz dont hack"
+                    reply = cmd_name()
                 elif command == "Exit":
-                    reply = "Bye!"
+                    reply = cmd_exit()
                     exited = True
                 else:
                     reply = "Unknown command!"
@@ -34,6 +33,27 @@ def main():
                 csocket.send(len(reply).to_bytes(4, byteorder="little"))
                 csocket.send(reply)
             csocket.close()
+
+
+def cmd_test():
+    return "It works!"
+
+
+def cmd_time():
+    return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+
+def cmd_rand():
+    random.seed()
+    return str(random.randint(0, sys.maxsize))
+
+
+def cmd_name():
+    return "plz dont hack"
+
+
+def cmd_exit():
+    return "Bye!"
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

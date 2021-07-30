@@ -4,7 +4,7 @@ import socket
 def main():
     print("connecting...")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("127.0.0.1", 420))
+    s.connect(("127.0.0.1", 4141))
     exiting = False
     while not exiting:
         command = input("> ")
